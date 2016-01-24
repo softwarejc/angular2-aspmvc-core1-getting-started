@@ -9,7 +9,6 @@ export class HelloService {
 
     constructor(private http: Http) { }
 
-    // Gets the activations of an specified license from the server
     public sayHello(name: string): Observable<string> {
         var url = `${this._sayHelloServiceUrl}?name=${name}`;
 

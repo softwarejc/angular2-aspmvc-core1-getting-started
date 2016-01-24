@@ -24,7 +24,6 @@ System.register(['angular2/http', 'angular2/core'], function(exports_1) {
                     this.http = http;
                     this._sayHelloServiceUrl = '/api/hello/';
                 }
-                // Gets the activations of an specified license from the server
                 HelloService.prototype.sayHello = function (name) {
                     var url = this._sayHelloServiceUrl + "?name=" + name;
                     return this.http.get(url).map(function (res) { return res.json().message; });

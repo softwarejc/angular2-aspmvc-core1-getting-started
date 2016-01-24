@@ -13,7 +13,7 @@ System.register(['angular2/platform/browser', 'angular2/http', './hello/hello.co
             },
             function (_1) {}],
         execute: function() {
-            // Bootstrap Angular2 loading Licenses controller
+            // Bootstrap Angular2 
             browser_1.bootstrap(hello_component_1.Hello, [http_1.HTTP_PROVIDERS]).then(function (success) { return console.log('app bootstrapped...'); }, function (error) { return console.log(error); });
         }
     }
