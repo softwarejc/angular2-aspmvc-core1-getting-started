@@ -6,12 +6,17 @@ namespace GettingStarted_ASPNetCore1_Angular2.Controllers
     [Route("api/[controller]")]
     public class HelloController : Controller
     {
-        // GET: api/values
         [HttpGet]
         public IActionResult Get(string name)
         {
-            var result = $"Hello {name}, the server UTC time is: {DateTime.UtcNow}";
-            return new ObjectResult(result);
+            var time = DateTime.UtcNow.ToString("hh:mm:ss");
+
+            var response = new
+            {
+                message = $"{time} - Hello {name}, server-side speaking!"
+            };
+
+            return new ObjectResult(response);
         }
     }
 }

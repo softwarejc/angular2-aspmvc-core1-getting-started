@@ -1,0 +1,16 @@
+﻿<div style="background: ghostwhite">
+    <h3>
+        <label>Name:</label>
+
+        <!--binding to component field-->
+        <input type="text" [(ngModel)]="name" placeholder="Enter a name here">
+
+        <!--binding click event to component method-->
+        <button class="btn btn-primary col-md-2" (click)="sayHello()">
+            Hello!
+        </button>
+    </h3>
+
+    <!-- conditionally display `message` -->
+    <h4 [hidden]="!message">{{message}}</h4>
+</div>

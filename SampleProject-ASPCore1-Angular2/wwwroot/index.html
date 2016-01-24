@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Getting started with ASPNET Core 1 and Angular 2</title>
+    <!--Styles bundle-->
+    <link href="css/styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>Getting started with ASPNET Core 1 and Angular 2</h1>
+            <h3>wwww.softwarejuancarlos.com</h3>
+        </div>
+    </header>
+
+    <!--Use angular "hello" component-->
+    <div class="container">
+        <hello>Loading...</hello>
+    </div>
+
+    <!--Dependencies bundle-->
+    <script src="scripts/deps.min.js"></script>
+
+    <script>
+      // Load all app js files
+      System.config({
+        "transpiler": false,
+        "packages": {
+            "app": {defaultExtension: 'js'}
+        }
+      });
+
+      // Run app
+      System.import('./app/bootstrap').then(null, console.error.bind(console));
+    </script>
+</body>
+
+</html>
