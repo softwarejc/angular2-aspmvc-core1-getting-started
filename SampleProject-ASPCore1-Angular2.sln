@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GettingStarted-ASPNetCore1-Angular2", "SampleProject-ASPCore1-Angular2\GettingStarted-ASPNetCore1-Angular2.xproj", "{1FCF406E-8317-4470-B7F4-29849E039C3C}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Security-ASPNetCore1-Policies", "Security-ASPNetCore1-Policies\Security-ASPNetCore1-Policies.xproj", "{FE2B7697-0BA3-4D07-A3C1-E7FCD5E5178B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{1FCF406E-8317-4470-B7F4-29849E039C3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FCF406E-8317-4470-B7F4-29849E039C3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FCF406E-8317-4470-B7F4-29849E039C3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE2B7697-0BA3-4D07-A3C1-E7FCD5E5178B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE2B7697-0BA3-4D07-A3C1-E7FCD5E5178B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE2B7697-0BA3-4D07-A3C1-E7FCD5E5178B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE2B7697-0BA3-4D07-A3C1-E7FCD5E5178B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
