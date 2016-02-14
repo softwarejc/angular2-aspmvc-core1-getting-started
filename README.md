@@ -15,10 +15,12 @@ Content
 - Set up gulp task to bundle dependencies
 
 
-
-
 http://softwarejuancarlos.com
 
 
+If the project is not building try to:
+
+- Install the update for the RC1 for Visual studio: https://get.asp.net
+- Get the latest version of the runtime: dnvm upgrade
 
 
