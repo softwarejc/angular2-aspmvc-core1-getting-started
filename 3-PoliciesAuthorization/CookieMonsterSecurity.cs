@@ -9,7 +9,8 @@ namespace Security_ASPNetCore1_Angular2
 {
     public static class CookieMonsterSecurity
     {
-        public const string CookieMonsterAuthenticationSchema = "CookieMonsterAuthenticationSchema";
+        private const string CookieMonsterAuthenticationSchema = "CookieMonsterAuthenticationSchema";
+
         public const string OnlyGoodMonstersPolicy = "OnlyGoodMonstersPolicy";
         public const string MonsterTypeClaim = "MonsterTypeClaim";
 

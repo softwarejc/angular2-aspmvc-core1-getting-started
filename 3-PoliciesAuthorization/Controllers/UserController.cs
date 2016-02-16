@@ -11,6 +11,11 @@ namespace Security_ASPNetCore1_Angular2.Controllers
         [HttpGet]
         public async Task<IActionResult> Login(string name)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                return HttpBadRequest("name is empty");
+            }
+
             await CookieMonsterSecurity.SignIn(HttpContext.Authentication, name);
 
             return new ObjectResult($"{name} logged IN");

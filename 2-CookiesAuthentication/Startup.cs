@@ -3,6 +3,9 @@ using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
 using Microsoft.Extensions.DependencyInjection;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace Security_ASPNetCore1_JwtBearer
 {
@@ -11,30 +14,29 @@ namespace Security_ASPNetCore1_JwtBearer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Configure athentication - who are you?
+            // Add required services for authentication - who are you?
             services.AddAuthentication();
-
-            // Configure authorization - what can you do?
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy("Automatic", policy =>
-            //    {
-            //        policy.AuthenticationSchemes.Add("Automatic");
-            //        policy.RequireAuthenticatedUser();
-            //    });
-            //});
-
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
         {
-
+            // Configure authentication
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
-                //AuthenticationScheme = "Automatic",
+                AuthenticationScheme = SecurityConfig.Scheme,
                 AutomaticChallenge = true,
+            });
+
+            app.UseClaimsTransformation(user =>
+            {
+                if (user.Identity.IsAuthenticated)
+                {
+                    var claim = new Claim(ClaimTypes.Role, "admin");
+                    user.Identities.First().AddClaims(new[] { claim });
+                }
+                return Task.FromResult(user);
             });
 
             app.UseMvc();
@@ -48,4 +50,10 @@ namespace Security_ASPNetCore1_JwtBearer
         // Entry point for the application.
         public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
+
+    public class SecurityConfig
+    {
+        public const string Scheme = "ABC";
+    }
+
 }
