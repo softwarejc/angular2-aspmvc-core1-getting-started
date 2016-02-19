@@ -210,3 +210,4 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+/1-GettingStarted-Angular2/wwwroot/scripts/deps.min.js
