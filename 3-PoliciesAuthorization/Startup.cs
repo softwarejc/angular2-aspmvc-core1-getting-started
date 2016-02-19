@@ -2,6 +2,9 @@
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
 using Microsoft.Extensions.DependencyInjection;
+using System.Security.Claims;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Security_ASPNetCore1_Angular2
 {
@@ -22,7 +25,19 @@ namespace Security_ASPNetCore1_Angular2
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
         {
+            app.UseDeveloperExceptionPage();
+
             app.UseCookieAuthentication(CookieMonsterSecurity.AuthenticationOptions());
+
+            app.UseClaimsTransformation(user =>
+            {
+                if (user.Identity.IsAuthenticated)
+                {
+                    var claim = new Claim("Dynamic Claim", "this claim was created using the middleware 'UseClaimsTransformation'");
+                    user.Identities.First().AddClaims(new[] { claim });
+                }
+                return Task.FromResult(user);
+            });
 
             app.UseMvc();
 

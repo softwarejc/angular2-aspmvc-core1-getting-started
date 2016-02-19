@@ -17,7 +17,6 @@ namespace Security_ASPNetCore1_Angular2.Controllers
             }
 
             await CookieMonsterSecurity.SignIn(HttpContext.Authentication, name);
-
             return new ObjectResult($"{name} logged IN");
         }
 
@@ -25,7 +24,6 @@ namespace Security_ASPNetCore1_Angular2.Controllers
         public async Task<IActionResult> Logout()
         {
             await CookieMonsterSecurity.SignOut(HttpContext.Authentication);
-
             return new ObjectResult("logged OUT");
         }
 
@@ -33,18 +31,7 @@ namespace Security_ASPNetCore1_Angular2.Controllers
         [Authorize(CookieMonsterSecurity.OnlyGoodMonstersPolicy)]
         public IActionResult Info()
         {
-            return GetUserIdentityAndClaims();
-        }
-
-        private IActionResult GetUserIdentityAndClaims()
-        {
-            var authenticatedType = HttpContext.User.Identities
-                .Where(identity => identity.IsAuthenticated)
-                .Select(identity => identity.AuthenticationType);
-
-            var claims = User.Claims.Select(c => new { c.Type, c.Value });
-
-            return new ObjectResult(new { authenticatedType, claims });
+            return new ObjectResult(User.Claims.Select(c => new { c.Type, c.Value }));
         }
     }
 }

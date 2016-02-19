@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Authorization;
 using System.Security.Claims;
-using Security_ASPNetCore1_JwtBearer;
+using Microsoft.AspNet.Authentication.Cookies;
 
 namespace Security_ASPNetCore1_Angular2.Controllers
 {
@@ -17,41 +17,51 @@ namespace Security_ASPNetCore1_Angular2.Controllers
         }
 
         [HttpGet]
-        [Authorize(SecurityHelper.AuthenticatedUserPolicy)]
+        [Authorize]
         public IActionResult Secret()
         {
             return new ObjectResult("this is secret!!");
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult Info()
         {
-            return new ObjectResult(GetUserIdentityAndClaims());
+            return new ObjectResult(User.Claims.Select(c => new { c.Type, c.Value }));
         }
 
         [HttpGet]
-        public async Task<IActionResult> Login()
+        public async Task<IActionResult> Login(string returnUrl = null)
         {
-            await SecurityHelper.SignIn(HttpContext.Authentication, "Juan Carlos");
+            // todo write a simple login form asking for the name...
+            // ...
+
+            // Create identity with our claims
+            var identity = new ClaimsIdentity(new[]
+            {
+                new Claim(ClaimTypes.Name, "Juan Carlos"),
+
+            },
+            // Claims schema
+            CookieAuthenticationDefaults.AuthenticationScheme);
+
+            await HttpContext.Authentication.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+
+            // After login is there is a return url redirect...
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                return new LocalRedirectResult(returnUrl);
+            }
+
+            // ... if not show an info message
             return new ObjectResult("logged IN");
         }
 
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            await SecurityHelper.SignOut(HttpContext.Authentication);
+            await HttpContext.Authentication.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return new ObjectResult("logged OUT");
-        }
-
-        private IActionResult GetUserIdentityAndClaims()
-        {
-            var authenticatedType = HttpContext.User.Identities
-                .Where(identity => identity.IsAuthenticated)
-                .Select(identity => identity.AuthenticationType);
-
-            var claims = User.Claims.Select(c => new { c.Type, c.Value });
-
-            return new ObjectResult(new { authenticatedType, claims });
         }
     }
 }
