@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Linq;
+using Security_ASPNetCore1_Angular2;
 
 namespace Security_ASPNetCore1_JwtBearer
 {
@@ -14,30 +15,19 @@ namespace Security_ASPNetCore1_JwtBearer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add required services for authentication - who are you?
+            // Configure authentication - who are you?
             services.AddAuthentication();
+
+            // Configure authorization - what can you do?
+            services.AddAuthorization(SecurityHelper.Authorization);
+
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
         {
-            // Configure authentication
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
-            {
-                AuthenticationScheme = SecurityConfig.Scheme,
-                AutomaticChallenge = true,
-            });
-
-            app.UseClaimsTransformation(user =>
-            {
-                if (user.Identity.IsAuthenticated)
-                {
-                    var claim = new Claim(ClaimTypes.Role, "admin");
-                    user.Identities.First().AddClaims(new[] { claim });
-                }
-                return Task.FromResult(user);
-            });
+            app.UseCookieAuthentication(SecurityHelper.Authentication());
 
             app.UseMvc();
 
@@ -45,15 +35,20 @@ namespace Security_ASPNetCore1_JwtBearer
             {
                 await context.Response.WriteAsync("Path not found: " + context.Request.Path);
             });
+
+            // todo
+            //app.UseClaimsTransformation(user =>
+            //{
+            //    if (user.Identity.IsAuthenticated)
+            //    {
+            //        var claim = new Claim(ClaimTypes.Role, "admin");
+            //        user.Identities.First().AddClaims(new[] { claim });
+            //    }
+            //    return Task.FromResult(user);
+            //});
         }
 
         // Entry point for the application.
         public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
-
-    public class SecurityConfig
-    {
-        public const string Scheme = "ABC";
-    }
-
 }

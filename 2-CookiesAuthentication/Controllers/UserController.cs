@@ -10,16 +10,21 @@ namespace Security_ASPNetCore1_Angular2.Controllers
     [Route("api/[controller]/[action]")]
     public class UserController : Controller
     {
-
         [HttpGet]
         public IActionResult Public()
         {
-            return new ObjectResult("this is public");
+            return new ObjectResult("this is public...");
         }
 
         [HttpGet]
-        [Authorize(ActiveAuthenticationSchemes = SecurityConfig.Scheme )]
+        [Authorize(SecurityHelper.AuthenticatedUserPolicy)]
         public IActionResult Secret()
+        {
+            return new ObjectResult("this is secret!!");
+        }
+
+        [HttpGet]
+        public IActionResult Info()
         {
             return new ObjectResult(GetUserIdentityAndClaims());
         }
@@ -27,22 +32,14 @@ namespace Security_ASPNetCore1_Angular2.Controllers
         [HttpGet]
         public async Task<IActionResult> Login()
         {
-            var identity = new ClaimsIdentity(new[]
-            {
-                new Claim(ClaimTypes.Name, "Juan Carlos"),
-            }, SecurityConfig.Scheme);
-
-            var user = HttpContext.User as ClaimsPrincipal;
-            //user.AddIdentity(identity);
-
-            await HttpContext.Authentication.SignInAsync(SecurityConfig.Scheme, new ClaimsPrincipal(identity));
-            return new ObjectResult(GetUserIdentityAndClaims());
+            await SecurityHelper.SignIn(HttpContext.Authentication, "Juan Carlos");
+            return new ObjectResult("logged IN");
         }
 
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.Authentication.SignOutAsync(SecurityConfig.Scheme);
+            await SecurityHelper.SignOut(HttpContext.Authentication);
             return new ObjectResult("logged OUT");
         }
 
