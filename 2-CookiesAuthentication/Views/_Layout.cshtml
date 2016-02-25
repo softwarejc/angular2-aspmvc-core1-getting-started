@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+</head>
+<body>
+
+    @*Header*@
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="~/">Authentication Demo   </a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a class="navbar-brand glyphicon glyphicon-off pull-right" href="~/Account/Logout">
+                    Logout
+                </a>
+                <a class="navbar-brand glyphicon glyphicon-user pull-right" href="~/Account/Index">
+                    @User.Identity.Name
+                </a>
+            }
+            else
+            {
+                <a class="navbar-brand glyphicon glyphicon-off pull-right" href="~/Account/Login">
+                    Login
+                </a>
+            }
+        </div>
+    </div>
+
+    @*Body*@
+    <div class="container body-content" style="margin-top:50px">
+        @RenderBody()
+    </div>
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/bootstrap.min.js"></script>
+</body>
+</html>

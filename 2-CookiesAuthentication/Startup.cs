@@ -4,7 +4,7 @@ using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Security_ASPNetCore1_JwtBearer
+namespace CookiesAuthentication
 {
     public class Startup
     {
@@ -27,7 +27,7 @@ namespace Security_ASPNetCore1_JwtBearer
                 // This redirect to login
                 AutomaticChallenge = true,
 
-                LoginPath = new PathString("/api/user/login"),
+                LoginPath = new PathString(""),
             });
 
             app.UseMvc();
