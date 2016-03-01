@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.Owin.Hosting;
 
-
 namespace _4_IdentityServer
 {
     class Program
