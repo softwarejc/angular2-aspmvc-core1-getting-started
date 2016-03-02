@@ -100,7 +100,6 @@ namespace _5_OpenIdConnect
             identity.AddClaims(userClaims);
         }
 
-
         private Task OnAuthenticationValidated(AuthenticationValidatedContext context)
         {
            Console.WriteLine("OnAuthenticationValidated");
@@ -110,10 +109,5 @@ namespace _5_OpenIdConnect
 
         // Entry point for the application.
         public static void Main(string[] args) => WebApplication.Run<Startup>(args);
-    }
-
-    public class MyOpenIdConnectEvents : OpenIdConnectEvents
-    {
-
     }
 }
