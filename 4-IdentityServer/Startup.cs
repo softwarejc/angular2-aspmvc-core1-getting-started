@@ -43,24 +43,30 @@ namespace _4_IdentityServer
                     Claims = new List<Claim>
                     {
                         new Claim("name", "Juan Carlos"),
+                        new Claim("gender", "male"),
+                        new Claim("nickname", "juasan00"),
                         new Claim("email", "juancarlos@email.com"),
                         new Claim("role", "admin")
                     },
                 }
             };
 
-            // Scopes (Claims): There are two types: Identity Scopes and Resources Scopes
+            // Scopes (Claims): There are two types: Identity Scopes and Resources Scopes (WebApis)
             var scopes = new List<Scope>
             {
                 // Standard Claims
                 StandardScopes.OpenId,
                 StandardScopes.Profile,
                 StandardScopes.Email,
+                StandardScopes.OfflineAccess, // This allows refresh tokens: https://identityserver.github.io/Documentation/docsv2/advanced/refreshTokens.html
 
                 // Custom Claims
                 new Scope
                 {
-                    Name = "roles",
+                    Name = "role",
+                    DisplayName = "Role",
+                    Description = "Your role",
+                    Type = ScopeType.Identity,
                     Claims = new List<ScopeClaim>
                     {
                         new ScopeClaim("role")
@@ -75,7 +81,12 @@ namespace _4_IdentityServer
                 {
                     ClientId = "mvc",
                     ClientName = "MVC Demo",
-                    Flow = Flows.Hybrid, // OAuth2 protocol to be used
+                    ClientSecrets = new List<Secret>
+                    {
+                        new Secret("secret".Sha256())
+                    },
+                    RequireConsent = false, // consent makes sense only for 3rd party apps
+                    Flow = Flows.Hybrid, // Flow supported by UseOpenIdConnectAuthentication (code + implicit)
                     RedirectUris = new List<string>
                     {
                         // Where to redirect the call, the MVC address
@@ -87,7 +98,8 @@ namespace _4_IdentityServer
                          StandardScopes.OpenId.Name,
                          StandardScopes.Email.Name,
                          StandardScopes.Profile.Name,
-                         "roles"
+                         StandardScopes.OfflineAccess.Name,
+                         "role"
                     }
                 }
             };
@@ -97,7 +109,8 @@ namespace _4_IdentityServer
             factory.UseInMemoryScopes(scopes);
             factory.UseInMemoryUsers(users);
 
-            app.UseIdentityServer(new IdentityServerOptions {
+            app.UseIdentityServer(new IdentityServerOptions
+            {
                 SiteName = "Identity Server Demo",
                 SigningCertificate = SigningCertificate.Load(), // cetificate used to signin issued tokens
                 Factory = factory // factory to find all users and resources
