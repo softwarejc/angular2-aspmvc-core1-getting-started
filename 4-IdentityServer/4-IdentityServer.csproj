@@ -92,6 +92,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <EmbeddedResource Include="certificate.pfx" />
+    <None Include="certificate.rename.topfx" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
