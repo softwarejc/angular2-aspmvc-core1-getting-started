@@ -44,7 +44,7 @@ namespace _5_OpenIdConnect
                 AuthenticationScheme = "Cookies", // We can have more than one authentication "system", we need a name to distinguish them
 
                 AutomaticAuthenticate = true, // Way in - IF true, Convert cookie into identity object
-                AutomaticChallenge = false, // Way out - IF true, redirect to challenge URL
+                AutomaticChallenge = false, // Way out - IF true, Redirect to challenge URL
             });
 
             OpenIdConnectEvents events = null;
@@ -53,14 +53,14 @@ namespace _5_OpenIdConnect
                 options.AuthenticationScheme = "Oidc";
                 options.AutomaticAuthenticate = false;
                 options.AutomaticChallenge = true;
-                options.SignInScheme = "Cookies"; // Middleware to persist user in a cookie
+                options.SignInScheme = "Cookies"; // Middle-ware to persist user in a cookie
 
                 options.Authority = Constants.Authority; // Identity Server
                 options.ClientId = Constants.ClientId; // This application must be registered in identity server with this id
                 options.ResponseType = "code id_token";
                 options.GetClaimsFromUserInfoEndpoint = true;
 
-                options.Scope.Add("offline_access");
+                options.Scope.Add("offline_access"); // this scope is needed to get the refresh token
                 options.Scope.Add("role");
 
                 // Used to register events later
@@ -83,7 +83,7 @@ namespace _5_OpenIdConnect
             // 1) Use the code to get the access and refresh token, 
             // As we are using the hybrid flow, we will get a "code" and "access_token" but not "refresh_token".
             // Using the code we can get a "refresh_token" if the client application is a server side app (like this example)
-            // If the application is a SPA or a native phone app, it is not secure to use the ClientSecret to get an access token
+            // If the application is a SPA or a native phone app, it is not secure to use the ClientSecret 
             var tokenClient = new TokenClient(Constants.TokenEndpoint, Constants.ClientId, Constants.ClientSecret);
             var tokensResponse = tokenClient.RequestAuthorizationCodeAsync(context.Code, context.RedirectUri).Result;
 
@@ -108,6 +108,14 @@ namespace _5_OpenIdConnect
             ClaimsIdentity identity = context.AuthenticationTicket.Principal.Identity as ClaimsIdentity;
             if (identity != null)
             {
+                // Remove all protocol related claims
+                var claimsToRemove = identity.Claims.ToList();
+                foreach (var claim in claimsToRemove)
+                {
+                    identity.RemoveClaim(claim);
+                }
+
+                // Add oauth and user claims
                 identity.AddClaims(oauthClaims);
                 identity.AddClaims(userClaims);
             }

@@ -11,7 +11,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "https://localhost:44333/Identity/SignIn",
+      "launchUrl": "https://localhost:44333/info/GetClaims",
       "environmentVariables": {
         "Hosting:Environment": "Development"
       }
