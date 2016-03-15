@@ -37,9 +37,11 @@ namespace CookiesAuthentication.Controllers
                 {
                     new Claim(ClaimTypes.Name, model.Name),
                 },
-
                 // Claims schema
                 CookieAuthenticationDefaults.AuthenticationScheme);
+
+                // Convert claims into a cookie using the cookie schema, if "AutomaticAuthenticate" is true 
+                // that cookie will always be read and converted into a ClaimsIdentity in every request
                 await HttpContext.Authentication.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
                 return LocalRedirect(returnUrl ?? "/");

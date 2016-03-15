@@ -1,14 +1,10 @@
-﻿using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Authorization;
-using System.Linq;
-using IdentityModel.Client;
-using System;
-using System.Threading.Tasks;
-using System.Security.Claims;
-using System.Collections.Generic;
+﻿using System.Linq;
 using System.Net.Http;
-using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace _5_OpenIdConnect.Controllers
 {
@@ -33,6 +29,8 @@ namespace _5_OpenIdConnect.Controllers
         public async Task<IActionResult> CallApi()
         {
             // todo...
+            // configure UseIdentityServerBearerTokenAuthentication (or Microsoft middleware)
+            // that middleware validates the token
 
             var token = User.FindFirst("access_token").Value;
 
