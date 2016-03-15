@@ -64,13 +64,23 @@
 <div class="row">
     <div class="col-md-12">
 
-        <h2>Welcome!</h2>
-
         @if (!User.Identity.IsAuthenticated)
         {
-            <button type="button" class="btn btn-default btn-lg">
+            <h2>Welcome, I don't know you!</h2>
+
+            <a href="@Url.Action("Login")" class="btn btn-default btn-lg">
                 <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Log in
-            </button>
+            </a>
+        }
+        else
+        {
+            var nameClaim = User.Claims.SingleOrDefault(claim => claim.Type == "name");
+
+            <h2>Welcome, @nameClaim?.Value!</h2>
+
+            <h3>
+                <span class="label label-success">You are authenticated!</span>
+            </h3>
         }
 
     </div>

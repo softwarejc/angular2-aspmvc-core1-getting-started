@@ -92,6 +92,10 @@ namespace _4_IdentityServer
                         // Where to redirect the call, the MVC address
                         "https://localhost:44333" + "/signin-oidc" // default Microsoft openId middleware callback path
                     },
+                    PostLogoutRedirectUris = new List<string>
+                    {
+                        "https://localhost:44333"
+                    },
                     AllowedScopes = new List<string>
                     {
                         // Information that the application can access,

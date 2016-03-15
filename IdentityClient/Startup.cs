@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Builder;
+﻿using Microsoft.AspNet.Authentication.Cookies;
+using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +25,7 @@ namespace IdentityClient
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            services.AddAuthentication();
             services.AddMvc();
         }
 
@@ -42,6 +44,17 @@ namespace IdentityClient
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            // Cookie to map the OpenIdConnect authentication
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationScheme = "Cookies", // We can have more than one authentication "system", we need a name to distinguish them
+
+                AutomaticAuthenticate = true, // Way in - IF true, Convert cookie into identity object
+                AutomaticChallenge = false, // Way out - IF true, Redirect to challenge URL
+            });
+
+            MyOpenIdConnect.Config(app);
 
             app.UseIISPlatformHandler();
             app.UseStaticFiles();
