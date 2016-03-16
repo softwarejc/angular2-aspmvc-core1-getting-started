@@ -28,7 +28,8 @@ namespace IdentityClient
                 options.GetClaimsFromUserInfoEndpoint = true;
 
                 options.Scope.Add("offline_access"); // this scope is needed to get the refresh token
-                options.Scope.Add("role");
+                options.Scope.Add("role"); // a demo scope that contains a claim with the same name "role"
+                options.Scope.Add("tickets_api"); // this scope is needed to access the resource API
 
                 // Used to register events later
                 events = options.Events as OpenIdConnectEvents;

@@ -95,7 +95,7 @@ namespace _4_IdentityServer
                     {
                         new Secret("secret".Sha256())
                     },
-                   // RequireConsent = false, // consent makes sense only for 3rd party apps
+                    //RequireConsent = false, // consent makes sense only for 3rd party apps
                     Flow = Flows.Hybrid, // Flow supported by UseOpenIdConnectAuthentication (code + implicit)
                     RedirectUris = new List<string>
                     {
@@ -115,7 +115,7 @@ namespace _4_IdentityServer
                          StandardScopes.OfflineAccess.Name,
                          "role",
                          "tickets_api"
-                    }
+                    },
                 }
             };
 

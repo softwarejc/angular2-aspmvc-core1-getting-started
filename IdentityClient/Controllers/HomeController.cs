@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Http.Authentication;
 using Microsoft.AspNet.Mvc;
@@ -35,6 +38,28 @@ namespace IdentityClient.Controllers
             {
                 RedirectUri = "https://" + HttpContext.Request.Host.Value
             });
+        }
+
+        [Authorize]
+        public async Task<IActionResult> CallApi()
+        {
+            var accessToken = User.Claims.SingleOrDefault(claim => claim.Type == "access_token");
+
+            if (accessToken == null)
+            {
+                return new BadRequestResult();
+            }
+
+            HttpClient client = new HttpClient();
+
+            // The Resource API will validate this access token
+            client.SetBearerToken(accessToken.Value);
+            client.BaseAddress = new Uri(Constants.ResourceApi);
+
+            HttpResponseMessage response = await client.GetAsync("api/Tickets/Read");
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            return new ObjectResult(responseContent);
         }
 
         public IActionResult Error()

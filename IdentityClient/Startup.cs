@@ -24,7 +24,6 @@ namespace IdentityClient
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
             services.AddAuthentication();
             services.AddMvc();
         }
@@ -49,7 +48,7 @@ namespace IdentityClient
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationScheme = "Cookies", // We can have more than one authentication "system", we need a name to distinguish them
-
+                
                 AutomaticAuthenticate = true, // Way in - IF true, Convert cookie into identity object
                 AutomaticChallenge = false, // Way out - IF true, Redirect to challenge URL
             });

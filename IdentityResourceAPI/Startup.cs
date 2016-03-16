@@ -12,6 +12,7 @@ namespace IdentityResourceAPI
     public class Startup
     {
         private const string IdentityServerUrl = "https://localhost:44300";
+
         public void Configuration(IAppBuilder app)
         {
             // # 1) Bearer token authentication
