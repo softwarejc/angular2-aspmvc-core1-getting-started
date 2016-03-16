@@ -61,6 +61,7 @@ namespace _4_IdentityServer
                 StandardScopes.OfflineAccess, // This allows refresh tokens: https://identityserver.github.io/Documentation/docsv2/advanced/refreshTokens.html
 
                 // Custom Claims
+                // Identity: Role 
                 new Scope
                 {
                     Name = "role",
@@ -71,6 +72,15 @@ namespace _4_IdentityServer
                     {
                         new ScopeClaim("role")
                     }
+                },
+
+                 // Resource API
+                new Scope
+                {
+                    Name = "tickets_api",
+                    DisplayName = "Tickets api",
+                    Description = "This is an API to get and create tickets",
+                    Type = ScopeType.Resource,
                 }
             };
 
@@ -103,7 +113,8 @@ namespace _4_IdentityServer
                          StandardScopes.Email.Name,
                          StandardScopes.Profile.Name,
                          StandardScopes.OfflineAccess.Name,
-                         "role"
+                         "role",
+                         "tickets_api"
                     }
                 }
             };
