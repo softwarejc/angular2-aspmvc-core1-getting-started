@@ -57,6 +57,12 @@ namespace IdentityClient.Controllers
             client.BaseAddress = new Uri(Constants.ResourceApi);
 
             HttpResponseMessage response = await client.GetAsync("api/Tickets/Read");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return new BadRequestObjectResult("Error connecting with the API");
+            }
+
             var responseContent = await response.Content.ReadAsStringAsync();
 
             return new ObjectResult(responseContent);
