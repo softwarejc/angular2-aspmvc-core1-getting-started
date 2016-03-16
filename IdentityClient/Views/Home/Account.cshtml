@@ -2,13 +2,34 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    <a href="@Url.Action("Callapi")" class="btn btn-primary btn-lg">
-        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Call Protected API
-    </a>
+    <div class="row">
 
-    <a href="@Url.Action("Logout")" class="btn btn-danger btn-lg pull-right">
-        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Log out
-    </a>
+        <a href="@Url.Action("Logout")" class="btn btn-danger btn-lg pull-right">
+            <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Log out
+        </a>
+    </div>
+
+    <div class="container">
+        <a href="@Url.Action("Callapi")" class="btn btn-primary btn-lg">
+            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Call API
+        </a>
+        <span class="label label-default">
+            ... any authenticated user!
+        </span>
+    </div>
+
+    <p></p>
+
+    <div class="container">
+        <a href="@Url.Action("Callapi")" class="btn btn-primary btn-lg">
+            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Call Admins API
+        </a>
+
+        <span class="label label-default">
+            ... only administrators!
+        </span>
+
+    </div>
 
     var roleClaim = User.Claims.SingleOrDefault(claim => claim.Type == "role");
     if (roleClaim != null && roleClaim.Value == "admin")
@@ -16,7 +37,6 @@
         <h3>
             <span class="label label-info">
                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-
                 You are admin!
             </span>
         </h3>
@@ -28,10 +48,10 @@
         @foreach (var claim in User.Claims)
         {
             <dt>@claim.Type</dt>
-            <dd>@claim.Value</dd>
+                <dd>@claim.Value</dd>
         }
     </dl>
-    <hr />
+        <hr />
 }
 else
 {

@@ -20,22 +20,22 @@ namespace _4_IdentityServer
                 .WriteTo.ColoredConsole()
                 .CreateLogger();
 
-            // In Memory users
+            // ## Users (In Memory)
             var users = new List<InMemoryUser> {
-                // Customer
+                // Customer - Bob
                 new InMemoryUser {
                     Username = "DemoCustomer",
                     Password = "customer123",
                     Subject = "1", // A special claim that is unique to that customer, it should never change
                     Claims = new List<Claim>
                     {
-                        new Claim("name", "A customer"),
+                        new Claim("name", "Bob Smith"),
                         new Claim("email", "customer@email.com"),
                         new Claim("role", "customer")
                     },
                 },
 
-                // Administrator
+                // Administrator - Juan Carlos
                 new InMemoryUser {
                     Username ="Administrator",
                     Password ="admin123",
@@ -51,7 +51,7 @@ namespace _4_IdentityServer
                 }
             };
 
-            // Scopes (Claims): There are two types: Identity Scopes and Resources Scopes (WebApis)
+            // ## Scopes (Claims): There are two types: Identity Scopes and Resources Scopes (WebApis)
             var scopes = new List<Scope>
             {
                 // Standard Claims
@@ -74,7 +74,7 @@ namespace _4_IdentityServer
                 }
             };
 
-            // Clients = registered applications
+            // ## Clients = registered applications
             var clients = new List<Client>
             {
                 new Client
@@ -85,12 +85,12 @@ namespace _4_IdentityServer
                     {
                         new Secret("secret".Sha256())
                     },
-                    RequireConsent = false, // consent makes sense only for 3rd party apps
+                   // RequireConsent = false, // consent makes sense only for 3rd party apps
                     Flow = Flows.Hybrid, // Flow supported by UseOpenIdConnectAuthentication (code + implicit)
                     RedirectUris = new List<string>
                     {
                         // Where to redirect the call, the MVC address
-                        "https://localhost:44333" + "/signin-oidc" // default Microsoft openId middleware callback path
+                        "https://localhost:44333" + "/signin-oidc" // default Microsoft openId middle ware callback path
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
@@ -116,7 +116,7 @@ namespace _4_IdentityServer
             app.UseIdentityServer(new IdentityServerOptions
             {
                 SiteName = "Identity Server Demo",
-                SigningCertificate = SigningCertificate.Load(), // cetificate used to signin issued tokens
+                SigningCertificate = SigningCertificate.Load(), // certificate used to sign in issued tokens
                 Factory = factory // factory to find all users and resources
             });
 
