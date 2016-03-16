@@ -16,12 +16,14 @@ namespace IdentityResourceAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public HttpResponseMessage Read()
         {
             return Request.CreateResponse(HttpStatusCode.OK, Tickets);
         }
 
         [HttpGet]
+        [Authorize]
         public HttpResponseMessage Add(string ticket)
         {
             Tickets.Add(ticket);
